@@ -3,7 +3,7 @@
 
 #include <math.h>
 
-#include "image.h"
+#include "../utils/image.h"
 
 // This implemententation uses Jorge Jimenez et al.'s improved MLAA algorithm.
 // Details can be found at https://www.iryoku.com/mlaa/

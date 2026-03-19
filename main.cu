@@ -5,7 +5,7 @@
 
 #include "utils/image.h"
 #include "algs/upscale.h"
-#include "mlaa.h"
+#include "algs/mlaa.h"
 
 int main(int argc, char** argv)
 {
@@ -25,6 +25,12 @@ int main(int argc, char** argv)
     }
     printf("Successfully loaded image.\n");
 
+    IMAGE* edges = DetectEdges(img);
+    printf("Edge detection complete.\n");
+    WriteImage("output/output.png", edges);
+    printf("1st pass written to output.\n");
+
+    FreeImage(edges);
     FreeImage(img);
     return 0;
 }
