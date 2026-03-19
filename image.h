@@ -131,12 +131,18 @@ __host__ __device__ int IsPixelInBounds(IMAGE* image, int x, int y)
     ;
 }
 
+__host__ __device__ void ClampToImageBounds(IMAGE* image, int* x, int* y)
+{
+    if(*x < 0) *x = 0;
+    if(*y < 0) *y = 0;
+
+    if(*x >= image->width) *x = image->width - 1;
+    if(*y >= image->height) *y = image->height - 1;
+}
+
 __host__ __device__ PIXEL GetPixel(IMAGE* image, int x, int y)
 {
-    if(!IsPixelInBounds(image, x, y)) 
-    {
-        return {0, 0, 0, 0};
-    }
+    ClampToImageBounds(image, &x, &y);
 
     stbi_uc* pixelAddr = image->data + STBI_rgb_alpha * (image->width * y + x);
     return 
