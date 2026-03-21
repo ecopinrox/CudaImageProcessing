@@ -24,12 +24,17 @@ IMAGE* Upscale(IMAGE* input, int factor)
 
     int upscaledWidth = input->width * factor - factor + 1;
     int upscaledHeight = input->height * factor - factor + 1;
+
     IMAGE* d_out = CudaImageMalloc(upscaledWidth, upscaledHeight);
 
     IMAGE* output = MallocImage(upscaledWidth, upscaledHeight);
 
     UpscaleKernel<<< GetGridDim(output) , imgBlockDim >>>(d_in, d_out);
+    cudaDeviceSynchronize();
 
     CudaImageCopy(output, d_out, cudaMemcpyDeviceToHost);
+
+    CudaImageFree(d_in);
+    CudaImageFree(d_out);
     return output;
 }
