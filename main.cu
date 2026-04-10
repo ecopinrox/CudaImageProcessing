@@ -7,6 +7,7 @@
 
 #include "algs/upscale.h"
 #include "algs/mlaa.h"
+#include "algs/sobel.h"
 
 #define EXE_NAME "imgproc.exe"
 
@@ -22,6 +23,7 @@
 const char* helpCommand    = "help";
 const char* upscaleCommand = "upscale";
 const char* mlaaCommand    = "mlaa";
+const char* sobelCommand   = "sobel";
 
 int CompareCommand(char* arg, const char* command)
 {
@@ -40,8 +42,9 @@ int main(int argc, char** argv)
     if(CompareCommand(command, helpCommand))
     {
         printf("[./imgproc.exe %s]: Show command list\n", helpCommand);
-        printf("[./imgproc.exe %s <filepath> [<factor>]]: Upscale image at <filename> by an optional integer <factor>. Default upscaling factor is 4.\n", upscaleCommand); 
+        printf("[./imgproc.exe %s <filepath> [<factor>]]: Upscale the given image by an optional integer <factor>. Default upscaling factor is 4.\n", upscaleCommand); 
         printf("[./imgproc.exe %s <filepath>]: Antialias image using MLAA\n", mlaaCommand);
+        printf("[./imgproc.exe %s <filepath>]: Run Sobel edge detection on the given image\n", sobelCommand);
         return 0;
     }
     
@@ -96,6 +99,8 @@ int main(int argc, char** argv)
 
         WriteImage("output/upscaled.png", upscaled);
         printf("Upscaled image written to output.\n");
+
+        FreeImage(upscaled);
     }
     else if(CompareCommand(command, mlaaCommand))
     {
@@ -114,6 +119,16 @@ int main(int argc, char** argv)
         FreeImage(edges);
         FreeImage(weights);
         FreeImage(output);
+    }
+    else if(CompareCommand(command, sobelCommand))
+    {
+        IMAGE* sobel = Sobel(img);
+        printf("Sobel edge detection complete. Writing to output...\n");
+
+        WriteImage("output/sobel.png", sobel);
+        printf("Image written to output.\n");
+
+        FreeImage(sobel);
     }
     else
     {

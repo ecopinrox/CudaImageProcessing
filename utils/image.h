@@ -168,3 +168,13 @@ __host__ __device__ void SetPixel(IMAGE* image, int x, int y, PIXEL pixel)
     pixelAddr[3] = pixel.a;
 }
 
+__host__ __device__ stbi_uc RGBToGrayscale(PIXEL p)
+{
+    return (stbi_uc) (((p.r * 77) + (p.g * 150) + (p.b * 29)) >> 8);
+}
+
+__host__ __device__ PIXEL GrayscaleToRGB(stbi_uc gray)
+{
+    return { gray, gray, gray, 255 };
+}
+
