@@ -8,6 +8,8 @@
 #include "algs/upscale.h"
 #include "algs/mlaa.h"
 
+#define EXE_NAME "imgproc.exe"
+
 //mkdir commands
 #ifdef _WIN32
     #include <direct.h>
@@ -30,7 +32,7 @@ int main(int argc, char** argv)
 {
     if(argc < 2)
     {
-        printf("Specify a command. Use \"imgproc.exe %s\" to list all available commands.\n", helpCommand);
+        printf("Specify a command. Run \"./%s %s\" to list all available commands.\n", EXE_NAME, helpCommand);
         return 1;
     }
 
@@ -115,7 +117,7 @@ int main(int argc, char** argv)
     }
     else
     {
-        printf("Command unrecognized. Run \"./imgproc %s\" to list all available commands.\n", helpCommand);
+        printf("Command unrecognized. Run \"./%s %s\" to list all available commands.\n", EXE_NAME, helpCommand);
     }
 
     FreeImage(img);
